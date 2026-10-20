@@ -2,7 +2,7 @@
 
 A pop-up application launcher for Linux/X11. Press a key and a grid of icons appears around the
 mouse pointer; every icon keeps a fixed position relative to the pointer, so after a while you
-launch things by muscle memory: key, flick, click. A clean-room successor to *apwal*, and it
+launch things by muscle memory: key, flick, click. A spiritual successor to *apwal*, and it
 imports apwal layouts.
 
 **Version 1.0.1**
@@ -138,7 +138,12 @@ General Public License as published by the Free Software Foundation, either vers
 License, or (at your option) any later version (GPL-3.0-or-later). It is distributed in the hope
 that it will be useful, but WITHOUT ANY WARRANTY; see `LICENSE` for the full text.
 
-Prowal is a clean-room rewrite: it contains no code, images or text from apwal.
+Prowal is written from scratch: it contains no code, images or text from apwal.
+
+## Thanks
+
+Thank you to Pascal Eberhard, who wrote apwal (2002–2004). I used it every day for twenty years,
+and Prowal exists because I didn't want to stop.
 
 ## Development
 

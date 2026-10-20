@@ -1,0 +1,3 @@
+#pragma once
+
+#define PROWAL_VERSION "@PROJECT_VERSION@"

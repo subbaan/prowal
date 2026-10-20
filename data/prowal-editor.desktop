@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Prowal Editor
+GenericName=Launcher Editor
+Comment=Arrange the icons of the Prowal pop-up launcher
+Exec=prowal --edit
+Icon=applications-other
+Terminal=false
+Categories=Utility;
+Keywords=launcher;apwal;grid;icons;

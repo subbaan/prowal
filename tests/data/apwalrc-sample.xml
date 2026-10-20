@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- Synthetic fixture modelled on a long-lived apwal layout. -->
+<apwalrc>
+  <apps>
+    <app>
+      <cmdline>thunar</cmdline>
+      <path></path>
+      <icon>/usr/share/icons/hicolor/48x48/apps/org.xfce.thunar.png</icon>
+      <x>0</x>
+      <y>0</y>
+    </app>
+    <app>
+      <cmdline>xfce4-terminal # xterm -fg wheat -bg black</cmdline>
+      <path>/tmp</path>
+      <icon>/nonexistent/utilities-terminal.png</icon>
+      <x>2</x>
+      <y>2</y>
+    </app>
+    <app>
+      <name>old style</name>
+      <exec>gimp-2.10</exec>
+      <args>--new-instance</args>
+      <icon></icon>
+      <x>-2</x>
+      <y>0</y>
+    </app>
+    <app>
+      <cmdline></cmdline>
+      <path></path>
+      <icon></icon>
+      <x>5</x>
+      <y>5</y>
+    </app>
+    <app>
+      <cmdline>pamac-manager</cmdline>
+      <icon>pamac</icon>
+      <x>0</x>
+      <y>0</y>
+    </app>
+    <app>
+      <cmdline>firefox</cmdline>
+      <icon>firefox</icon>
+      <x>0</x>
+      <y>-2</y>
+    </app>
+  </apps>
+  <iconsel_pref>
+    <select_48>1</select_48>
+    <icon_dirs><icon_dir><path>/usr/share/icons</path><selected>1</selected><recursive>1</recursive></icon_dir></icon_dirs>
+  </iconsel_pref>
+  <apwal_pref>
+    <timeout>2000</timeout>
+    <exit_at_app_launch>1</exit_at_app_launch>
+    <activate_tooltips>1</activate_tooltips>
+  </apwal_pref>
+</apwalrc>

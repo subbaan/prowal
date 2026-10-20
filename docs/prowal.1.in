@@ -1,0 +1,216 @@
+.TH PROWAL 1 "2026-10-20" "prowal @PROJECT_VERSION@" "User Commands"
+.SH NAME
+prowal \- pop-up application launcher: a grid of icons around the mouse pointer
+.SH SYNOPSIS
+.B prowal
+.RB [ \-c
+.IR file ]
+.RB [ \-g
+.IR name ]
+.br
+.B prowal \-\-edit
+.RB [ \-c
+.IR file ]
+.RB [ \-g
+.IR name ]
+.RB [ \-\-group
+.IR path ]
+.RB [ \-\-item
+.IR x,y ]
+.br
+.B prowal \-\-import\-apwal
+.RI [ apwal-file ]
+.RB [ \-c
+.IR file ]
+.RB [ \-g
+.IR name ]
+.br
+.B prowal
+.BR \-h " | " \-V
+.SH DESCRIPTION
+.B prowal
+shows a grid of icons centred on the mouse pointer and closes again once
+something is launched.
+Every icon keeps a fixed position relative to the pointer, so after a while
+programs are started by muscle memory: press the key, flick the mouse, click.
+.PP
+Run without options it shows the grid called
+.BR main .
+Bind it to a key or a mouse button in the window manager.
+.PP
+.B prowal
+is an X11 program; in a Wayland session it runs through XWayland.
+It is a clean-room successor to
+.BR apwal ,
+whose layout it can import.
+.SH OPTIONS
+.TP
+.BR \-c ", " \-\-config " \fIfile\fR"
+Use
+.I file
+instead of
+.IR ~/.config/prowal/prowal.json .
+.TP
+.BR \-g ", " \-\-grid " \fIname\fR"
+Show the grid called
+.I name
+instead of
+.BR main .
+With
+.BR \-\-edit ,
+open the editor on it; with
+.BR \-\-import\-apwal ,
+import into it.
+.TP
+.B \-\-edit
+Open the editor.
+If an editor for the same config file is already open, that one shows the
+request (grid, group, item) and comes forward instead.
+.TP
+.BI \-\-group " path"
+With
+.BR \-\-edit :
+open inside the group at cell
+.IR x,y ;
+nested groups are written
+.IR x,y/x,y/... .
+.TP
+.BI \-\-item " x,y"
+With
+.BR \-\-edit :
+select that cell.
+.TP
+.BR \-\-import\-apwal " [\fIapwal-file\fR]"
+Import an apwal layout (default
+.IR ~/.apwalrc.xml ),
+replacing the items of the grid.
+The apwal file is only read.
+The previous config is backed up first.
+.TP
+.BR \-h ", " \-\-help
+Show the options and exit.
+.TP
+.BR \-V ", " \-\-version
+Show the version and exit.
+.SH THE POPUP
+.TP
+.B Left click
+Launch, then close (unless "keep open after launching" is set).
+.TP
+.B Middle click
+Launch and keep the popup open.
+.TP
+.B Right click
+Open the editor, with the clicked icon selected.
+.TP
+.BR "Arrow keys" ", " Home
+Move the highlight; Home goes back to the middle.
+While the keys are in use the popup does not time out.
+.TP
+.BR Enter ", " Space
+Launch the highlighted icon or open the highlighted group.
+.B Shift+Enter
+keeps the popup open.
+.TP
+.BR Esc ", " Backspace
+Go back up out of a group.
+Esc at the top level closes the popup.
+.TP
+.B Click outside, or in a gap
+Close.
+.PP
+Moving the pointer off the grid closes the popup after the timeout.
+Programs that are not installed are shown greyed out.
+.SS Groups
+A group is an icon that opens its own grid of icons in place, centred on the
+group's icon.
+Groups can be nested.
+If a group leaves its middle cell free, that cell becomes a Back button.
+.SS Named grids
+A config can hold several grids.
+.B main
+is the default;
+.B prowal \-g
+.I name
+shows another, so different keys can open different launchers.
+.SH THE EDITOR
+.B prowal \-\-edit
+(or a right click in the popup) opens the editor.
+The dashed cell is where the pointer will be when the popup opens.
+Drag icons to move them (onto another icon to swap), double-click to edit,
+to add in an empty cell, or to open a group.
+Programs can be added from the installed applications (Ctrl+I) or by dragging
+.I .desktop
+files, programs or images from a file manager.
+Icons are chosen from every icon theme and icon folder (Choose\&...).
+All changes can be undone (Ctrl+Z) and are written when saved (Ctrl+S).
+.PP
+Preferences (Ctrl+,) set the terminal used for launchers marked
+"Run in a terminal", the close timeout, the look (floating icons or a panel,
+icon size, spacing, labels, group icons, icon theme, colours, shadows) and the
+animation.
+Preferences are part of the config file.
+.SH FILES
+.TP
+.I ~/.config/prowal/prowal.json
+The layout and preferences (JSON).
+Unknown keys are kept when the editor saves.
+.TP
+.I ~/.config/prowal/backups/
+The previous config, copied there before each save; the last 10 are kept.
+.TP
+.I ~/.config/prowal/icon-picker.ini
+The icon picker's folders and recently used icons.
+.TP
+.I ~/.apwalrc.xml
+apwal's layout, imported on first run if it exists.
+It is never written.
+.SH ENVIRONMENT
+.TP
+.B TERMINAL
+On first run, the terminal to use if it names an installed program.
+Otherwise Konsole, then the first installed of a list of common terminals.
+.TP
+.B PROWAL_TRACE_STARTUP
+If set, print start-up timings to standard error.
+.TP
+.B XDG_CONFIG_HOME
+Where
+.I prowal/
+lives (default
+.IR ~/.config ).
+.SH EXIT STATUS
+0 on success, 1 if the config can't be read or there is no display,
+2 for bad command-line arguments.
+.SH EXAMPLES
+Xfce: Settings \(-> Keyboard \(-> Application Shortcuts, add
+.B prowal
+on a key.
+A second launcher for games on another key:
+.PP
+.RS
+.nf
+prowal \-\-grid games
+.fi
+.RE
+.PP
+Bringing an apwal layout across into a grid of its own:
+.PP
+.RS
+.nf
+prowal \-\-import\-apwal ~/old/.apwalrc.xml \-\-grid old
+.fi
+.RE
+.SH NOTES
+If picom's fading is on it fades the popup in on top of Prowal's own
+animation; turn it off for windows matching
+.B class_g = 'prowal'
+in
+.IR picom.conf .
+.SH LICENSE
+GNU General Public License, version 3 or (at your option) any later version.
+There is no warranty.
+.SH SEE ALSO
+.BR apwal (1)
+.SH AUTHOR
+subbaan, https://github.com/subbaan

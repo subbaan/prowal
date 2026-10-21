@@ -198,8 +198,13 @@ Editor start (`PROWAL_TRACE_STARTUP=1`, Xvfb, 32 items): event loop running at *
   theme. Dragging an app exports its `.desktop` file as a `text/uri-list` URL, so the canvas has
   a single drop path for the picker and for file managers. The view overrides `startDrag` to
   show the app icon rather than Qt's whole-row picture.
-- Placement (`EditorWindow::placeItems`): the first item goes to the drop/selected cell if free,
-  each further one to the nearest free cell (`freeCellNear`); the whole batch is one undo step.
+- Placement (`EditorWindow::placeItems`): dropped items go to the drop cell if free, each further
+  one to the nearest free cell (`freeCellNear`). Picker items go to the selected cell if it is
+  free, otherwise (and every further one) to `nextFillCell`: the first gap in reading order of
+  the bounding box (widened to 5 columns, as centred on x = 0 as it can be while holding the
+  items, so the columns don't shift as a row fills), else the left end of a new row on top, skipping (0, 0)
+  in a group. Not `freeCellNear` from the last added item: its ring walk starts top-left, so
+  repeated adds crept up a diagonal. The whole batch is one undo step.
 - "Already in the grid" matches by desktop id or identical command.
 
 ## 9. v0.5.0 — Icon picker

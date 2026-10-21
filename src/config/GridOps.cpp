@@ -1,5 +1,6 @@
 #include "config/GridOps.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <utility>
 
@@ -46,6 +47,39 @@ QPoint freeCellNear(const std::vector<Item> &items, QPoint near)
       }
   }
   return near;
+}
+
+QPoint nextFillCell(const std::vector<Item> &items, bool keepCentre)
+{
+  int left = 0, right = 0, top = 0, bottom = 0;
+  if (!items.empty())
+  {
+    left = right = items.front().x;
+    top = bottom = items.front().y;
+    for (const Item &item : items)
+    {
+      left = std::min(left, item.x);
+      right = std::max(right, item.x);
+      top = std::min(top, item.y);
+      bottom = std::max(bottom, item.y);
+    }
+  }
+  // Too narrow: the kFillWidth columns holding the items that are closest to centred on the
+  // pointer. Adding items inside them keeps the same columns.
+  if (right - left + 1 < kFillWidth)
+  {
+    left = std::min(left, std::max(-(kFillWidth / 2), right - kFillWidth + 1));
+    right = left + kFillWidth - 1;
+  }
+
+  auto usable = [&](QPoint c) { return itemIndexAt(items, c) < 0 && !(keepCentre && c == QPoint(0, 0)); };
+  for (int y = top; y <= bottom; ++y)
+    for (int x = left; x <= right; ++x)
+      if (usable(QPoint(x, y)))
+        return QPoint(x, y);
+  // Full: start a row on top (empty, so only the centre cell can be unusable).
+  const QPoint start(left, top - 1);
+  return usable(start) ? start : start + QPoint(1, 0);
 }
 
 std::vector<Item> *groupItems(std::vector<Item> &items, const GroupPath &path)

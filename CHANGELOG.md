@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2 — 2026-10-21
+
+- **Fix:** apps added with *Add from installed apps* went one step up and left of the last one,
+  so repeated adds made a diagonal line. They now fill the gaps in the grid's outline first
+  (top row first, left to right), then start a new row on top at the left and fill it. A free
+  selected cell is still used for the first one; a narrow grid widens to 5 columns; inside a
+  group the centre cell stays free for the Back button.
+- README: the panel look is the top screenshot; the plain popup and an open group sit below it.
+
 ## 1.0.1 — 2026-10-20
 
 - **Fix:** Preferences → Look → Icon theme listed only themes with a single icon directory, so

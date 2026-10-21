@@ -21,6 +21,14 @@ int moveOrSwap(std::vector<Item> &items, int index, QPoint cell);
 // The free cell closest to `near` (searching outward ring by ring).
 QPoint freeCellNear(const std::vector<Item> &items, QPoint near);
 
+// Where an item added without a target cell goes: the first free cell, in reading order, of the
+// items' bounding box (widened to at least kFillWidth columns, centred on the pointer where it
+// can be); when that is full, the left end of a new row on top. An empty grid fills a row
+// centred on (0, 0).
+// keepCentre leaves (0, 0) free, for a Group's Back button.
+inline constexpr int kFillWidth = 5;
+QPoint nextFillCell(const std::vector<Item> &items, bool keepCentre);
+
 // The cells of the Groups leading from a Grid's top level down to a child grid;
 // empty means the top level. Cells rather than indices, so a path stays valid
 // while items are added or removed around it.

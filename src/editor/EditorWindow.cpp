@@ -541,7 +541,7 @@ void EditorWindow::showAppPicker()
       std::vector<Item> items;
       for (const DesktopEntry &e : entries)
         items.push_back(itemFromDesktopEntry(e));
-      placeItems(std::move(items), m_selected.value_or(QPoint(0, 0)),
+      placeItems(std::move(items), std::nullopt,
                  entries.size() == 1 ? tr("Add %1").arg(entries.front().name) : tr("Add %n apps", nullptr, int(entries.size())));
     });
   }
@@ -551,7 +551,7 @@ void EditorWindow::showAppPicker()
   m_picker->activateWindow();
 }
 
-void EditorWindow::placeItems(std::vector<Item> items, QPoint near, const QString &text)
+void EditorWindow::placeItems(std::vector<Item> items, std::optional<QPoint> near, const QString &text)
 {
   if (items.empty())
     return;
@@ -559,7 +559,13 @@ void EditorWindow::placeItems(std::vector<Item> items, QPoint near, const QStrin
   std::optional<QPoint> first;
   for (Item &item : items)
   {
-    const QPoint cell = freeCellNear(all, near);  // `near` itself when it is free
+    QPoint cell;
+    if (near)
+      cell = freeCellNear(all, *near);  // `near` itself when it is free
+    else if (!first && m_selected && itemIndexAt(all, *m_selected) < 0)
+      cell = *m_selected;
+    else
+      cell = nextFillCell(all, !m_group.empty());
     item.x = cell.x();
     item.y = cell.y();
     if (!first)

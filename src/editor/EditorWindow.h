@@ -55,7 +55,9 @@ private:
   void moveItem(int index, QPoint cell);
   void editItem(int index);
   void showAppPicker();
-  void placeItems(std::vector<Item> items, QPoint near, const QString &text);
+  // Adds items around `near`, or without it into the grid's gaps (see nextFillCell), the first
+  // one into the selected cell if that is free.
+  void placeItems(std::vector<Item> items, std::optional<QPoint> near, const QString &text);
   void dropFiles(QPoint cell, const QStringList &paths);
 
   void newGrid();

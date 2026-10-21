@@ -48,12 +48,44 @@ private slots:
     QCOMPARE(itemIndexAt(items, {1, 0}), 1);
     QCOMPARE(itemIndexAt(items, {5, 5}), -1);
     QCOMPARE(freeCellNear(items, {0, 0}), QPoint(0, -1));  // ring 1, reading order
+    QCOMPARE(nextFillCell(items, false), QPoint(-2, -1));  // top row of the outline, widened to 5
     QCOMPARE(moveOrSwap(items, 0, {1, 0}), 1);  // A and B swap
     QCOMPARE(QPoint(items[0].x, items[0].y), QPoint(1, 0));
     QCOMPARE(QPoint(items[1].x, items[1].y), QPoint(0, 0));
     QCOMPARE(moveOrSwap(items, 2, {3, 3}), -1);
     QCOMPARE(uniqueGridName(sample(), "main"), QString("main 2"));
     QCOMPARE(uniqueGridName(sample(), "games"), QString("games"));
+  }
+
+  void fillCells()
+  {
+    // A full-width 2-row grid with one gap: the gap first, then a new row on top, filled left to right.
+    std::vector<Item> items;
+    for (int y = 0; y < 2; ++y)
+      for (int x = 0; x < kFillWidth; ++x)
+        if (QPoint(x, y) != QPoint(2, 1))
+          items.push_back(launcher("X", x, y));
+    QCOMPARE(nextFillCell(items, false), QPoint(2, 1));
+    items.push_back(launcher("G", 2, 1));
+    for (int x = 0; x < kFillWidth; ++x)
+    {
+      QCOMPARE(nextFillCell(items, false), QPoint(x, -1));
+      items.push_back(launcher("N", x, -1));
+    }
+    QCOMPARE(nextFillCell(items, false), QPoint(0, -2));
+
+    // Empty: a row centred on the pointer; in a Group the centre stays free for Back.
+    QCOMPARE(nextFillCell({}, false), QPoint(-2, 0));
+    std::vector<Item> group = {launcher("A", -2, 0), launcher("B", -1, 0)};
+    QCOMPARE(nextFillCell(group, true), QPoint(1, 0));
+    // A narrow grid widens around its middle rather than growing a column.
+    std::vector<Item> one = {launcher("A", 0, 0)};
+    QCOMPARE(nextFillCell(one, false), QPoint(-2, 0));
+    // A new row whose left end would be the Back cell starts one to the right.
+    std::vector<Item> below;
+    for (int x = 0; x < kFillWidth; ++x)
+      below.push_back(launcher("X", x, 1));
+    QCOMPARE(nextFillCell(below, true), QPoint(1, 0));
   }
 
   void moveSwapUndoRedo()

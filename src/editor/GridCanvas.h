@@ -70,6 +70,7 @@ private:
   QRectF cellRect(QPoint cell) const;
   QRectF iconRect(QPoint cell) const;
   int indexAt(QPoint cell) const;
+  bool hidesBack(QPoint cell) const;
   const QPixmap &iconFor(int index);
   void select(std::optional<QPoint> cell);
   void panBy(QPointF delta);

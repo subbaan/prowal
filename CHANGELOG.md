@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.4 — 2026-10-28
+
+- **Editor:** inside a group, a free middle cell now shows the popup's Back button (faded, labelled
+  *Back*), so it's clear the cell is in use. If an item sits there, the hint under the grid says it
+  replaces the Back button, and dragging or dropping something onto the free middle cell is
+  labelled *hides Back*.
+
 ## 1.0.3 — 2026-10-28
 
 - README: the top screenshot is now the plain apwal-style popup: monochrome icons floating around

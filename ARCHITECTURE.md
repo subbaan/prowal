@@ -286,6 +286,8 @@ out of. Breadcrumbs are rebuilt on every refresh. Backspace/Alt+Up are a window 
 edits still get Backspace because they claim it via ShortcutOverride. `GridCanvas` draws Groups
 with `groupIcon()` in the configured style (cache key includes child icons for `preview`), and
 emits `openRequested`, `moveIntoRequested`, `moveUpRequested`, `addGroupRequested`.
+Inside a Group a free (0, 0) is painted with a faded `backIcon()` and a *Back* label; the legend
+and drag/drop labels (`hidesBack()`) say when an item would take its place.
 
 ### 10.4 Group icons (`IconLoader`)
 `groupIcon(item, style, size, dpr, accent)`: `plain` = the icon; `badge` = icon + dark disc with

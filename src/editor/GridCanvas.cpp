@@ -113,6 +113,12 @@ int GridCanvas::indexAt(QPoint cell) const
   return m_items ? itemIndexAt(*m_items, cell) : -1;
 }
 
+bool GridCanvas::hidesBack(QPoint cell) const
+{
+  // Putting something in a Group's free pointer cell takes the Back button's place.
+  return m_parentName && cell == QPoint(0, 0) && indexAt(cell) < 0;
+}
+
 void GridCanvas::centreOnOrigin()
 {
   m_followCentre = false;
@@ -235,7 +241,21 @@ void GridCanvas::paintEvent(QPaintEvent *)
     p.setBrush(fill);
     p.drawRoundedRect(r, 10, 10);
     const QPointF c = iconRect(QPoint(0, 0)).center();
-    if (indexAt(QPoint(0, 0)) < 0)
+    if (indexAt(QPoint(0, 0)) < 0 && m_parentName)
+    {
+      // Inside a Group a free pointer cell is the popup's Back button: show it, faded.
+      const QPixmap back = backIcon(kIcon, devicePixelRatioF(), accent);
+      p.setOpacity(0.6);
+      p.drawPixmap(iconRect(QPoint(0, 0)).topLeft(), back);
+      p.setOpacity(1);
+      QColor muted = pal.color(QPalette::Text);
+      muted.setAlpha(140);
+      p.setPen(muted);
+      const QFontMetrics fm(font());
+      p.drawText(QRectF(r.left(), iconRect(QPoint(0, 0)).bottom() + 3, r.width(), fm.height()),
+                 Qt::AlignHCenter | Qt::AlignTop, tr("Back"));
+    }
+    else if (indexAt(QPoint(0, 0)) < 0)
     {
       p.setPen(QPen(accent, 1.5));
       p.drawLine(c - QPointF(10, 0), c + QPointF(10, 0));
@@ -252,12 +272,17 @@ void GridCanvas::paintEvent(QPaintEvent *)
     QColor muted = pal.color(QPalette::Text);
     muted.setAlpha(140);
     p.setPen(muted);
-    p.drawText(rect().adjusted(10, 0, -10, -8), Qt::AlignLeft | Qt::AlignBottom | Qt::TextWordWrap,
-               m_parentName
-                 ? tr("Dashed cell: under the pointer when the group opens (left free, it becomes the "
-                      "Back button).   Drag to move · double-click to edit or add · Backspace goes up")
-                 : tr("Dashed cell: under the pointer when the popup opens.   Drag to move (onto an icon "
-                      "to swap) · double-click to edit, add or open a group · Alt+arrows move · Home recentres"));
+    QString legend;
+    if (!m_parentName)
+      legend = tr("Dashed cell: under the pointer when the popup opens.   Drag to move (onto an icon "
+                  "to swap) · double-click to edit, add or open a group · Alt+arrows move · Home recentres");
+    else if (indexAt(QPoint(0, 0)) < 0)
+      legend = tr("Dashed cell: under the pointer when the group opens. The popup puts its Back button "
+                  "there, so keep it free.   Drag to move · double-click to edit or add · Backspace goes up");
+    else
+      legend = tr("Dashed cell: under the pointer when the group opens. An item there replaces the "
+                  "Back button (Esc or Backspace still go back).   Drag to move · double-click to edit or add");
+    p.drawText(rect().adjusted(10, 0, -10, -8), Qt::AlignLeft | Qt::AlignBottom | Qt::TextWordWrap, legend);
   }
 
   // Selection and hover.
@@ -280,7 +305,7 @@ void GridCanvas::paintEvent(QPaintEvent *)
   {
     const bool empty = indexAt(*m_selected) < 0;
     outline(*m_selected, empty ? 20 : 70, empty);
-    if (empty)
+    if (empty && !hidesBack(*m_selected))
     {
       const QPointF c = iconRect(*m_selected).center();
       p.setPen(QPen(accent, 2));
@@ -335,7 +360,7 @@ void GridCanvas::paintEvent(QPaintEvent *)
     p.drawRoundedRect(cellRect(*m_dropCell).adjusted(3, 3, -3, -3), 10, 10);
     p.setPen(accent);
     p.drawText(cellRect(*m_dropCell).adjusted(0, 0, 0, -4), Qt::AlignHCenter | Qt::AlignBottom,
-               m_dropSetsIcon ? tr("set icon") : tr("add"));
+               m_dropSetsIcon ? tr("set icon") : hidesBack(*m_dropCell) ? tr("add, hides Back") : tr("add"));
   }
 
   // Item being dragged, and where it will land.
@@ -350,10 +375,11 @@ void GridCanvas::paintEvent(QPaintEvent *)
     p.setPen(QPen(c, 2));
     p.setBrush(fill);
     p.drawRoundedRect(cellRect(target).adjusted(3, 3, -3, -3), 10, 10);
-    if (swap)
+    if (swap || hidesBack(target))
     {
       p.setPen(c);
-      p.drawText(cellRect(target).adjusted(0, 0, 0, -4), Qt::AlignHCenter | Qt::AlignBottom, tr("swap"));
+      p.drawText(cellRect(target).adjusted(0, 0, 0, -4), Qt::AlignHCenter | Qt::AlignBottom,
+                 swap ? tr("swap") : tr("hides Back"));
     }
     const QPixmap &pm = iconFor(m_dragIndex);
     const QSizeF logical = QSizeF(pm.size()) / pm.devicePixelRatio();

@@ -5,7 +5,7 @@ mouse pointer; every icon keeps a fixed position relative to the pointer, so aft
 launch things by muscle memory: key, flick, click. A spiritual successor to *apwal*, and it
 imports apwal layouts.
 
-**Version 1.0.3**
+**Version 1.0.4**
 
 ![The popup: a grid of monochrome app icons floating around the mouse pointer, no panel, no labels](docs/screenshots/popup-mono.png)
 
@@ -76,7 +76,8 @@ Moving the pointer off the grid closes the popup after the timeout (not while yo
 keys). Programs that aren't installed are greyed out.
 
 **Groups** (icons with a small grid badge) open their own icons in place, centred on the group's
-icon. If a group leaves its middle cell free, that cell becomes a Back button.
+icon. If a group leaves its middle cell free, that cell becomes a Back button (the editor
+shows it there, faded).
 
 ## The editor
 

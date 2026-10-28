@@ -5,9 +5,9 @@ mouse pointer; every icon keeps a fixed position relative to the pointer, so aft
 launch things by muscle memory: key, flick, click. A spiritual successor to *apwal*, and it
 imports apwal layouts.
 
-**Version 1.0.2**
+**Version 1.0.3**
 
-![The popup: a grid of app icons around the mouse pointer, on a dark panel with labels](docs/screenshots/popup-panel.png)
+![The popup: a grid of monochrome app icons floating around the mouse pointer, no panel, no labels](docs/screenshots/popup-mono.png)
 
 - Opens in ~30 ms, with a short bloom animation, soft shadows and hover labels (all optional).
 - **Groups:** icons that open their own grid in place, nested as deep as you like.
@@ -19,8 +19,9 @@ imports apwal layouts.
 - **Preferences** for the terminal, the look and the motion, with a live preview.
 
 <p>
-  <img src="docs/screenshots/popup.png" width="49%" alt="The plain look: icons floating around the mouse pointer">
-  <img src="docs/screenshots/popup-group.png" width="49%" alt="A group opened in place, with a Back button in its middle">
+  <img src="docs/screenshots/popup-panel.png" width="32%" alt="The panel look: icons on a dark panel with labels">
+  <img src="docs/screenshots/popup.png" width="32%" alt="Colour icons floating around the mouse pointer, with a hover label">
+  <img src="docs/screenshots/popup-group.png" width="32%" alt="A group opened in place, with a Back button in its middle">
 </p>
 
 ## Install

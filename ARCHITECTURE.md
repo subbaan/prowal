@@ -414,5 +414,9 @@ they look the same in every icon theme.
   `PATH=<scratch>/stubbin` holding stub scripts that only `touch`, and `HOME=<scratch>/home` so
   the icon picker doesn't show the user's own `~/.icons` collections. Xvfb captures no cursor:
   one is drawn on with ImageMagick. Window shots get a drop shadow; `optipng -o2` after.
+  The top shot (`popup-mono.png`) is different: a 5×3 layout of 48 px monochrome PNGs from the
+  user's "Albook extended png" set (`~/.icons`, referenced by file path, not copied), `labels:
+  never`, floating mode, a flat `#2f343b` wallpaper, captured before the pointer moves so no
+  hover glow shows; 720×420 crop centred on the pointer.
 - External drag-and-drop is tested with a throwaway helper that starts a `QDrag` with file URLs
   when clicked (kept in the session scratchpad, not the repo), driven by `xdotool` presses.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 — 2026-10-28
+
+- README: the top screenshot is now the plain apwal-style popup: monochrome icons floating around
+  the pointer on a flat background, with no panel and no labels. The panel, colour and group
+  shots sit in a row below it.
+
 ## 1.0.2 — 2026-10-21
 
 - **Fix:** apps added with *Add from installed apps* went one step up and left of the last one,

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5 — 2026-11-07
+
+- Ko-fi link (https://ko-fi.com/subbaan) for anyone who'd like to support Prowal: in
+  Help → About Prowal (clickable), a *Support* section in the README, the man page, and a
+  GitHub `FUNDING.yml` for the repository's Sponsor button.
+
 ## 1.0.4 — 2026-10-28
 
 - **Editor:** inside a group, a free middle cell now shows the popup's Back button (faded, labelled

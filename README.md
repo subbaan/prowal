@@ -5,7 +5,7 @@ mouse pointer; every icon keeps a fixed position relative to the pointer, so aft
 launch things by muscle memory: key, flick, click. A spiritual successor to *apwal*, and it
 imports apwal layouts.
 
-**Version 1.0.4**
+**Version 1.0.5**
 
 ![The popup: a grid of monochrome app icons floating around the mouse pointer, no panel, no labels](docs/screenshots/popup-mono.png)
 
@@ -146,6 +146,11 @@ Prowal is written from scratch: it contains no code, images or text from apwal.
 
 Thank you to Pascal Eberhard, who wrote apwal (2002–2004). I used it every day for twenty years,
 and Prowal exists because I didn't want to stop.
+
+## Support
+
+Prowal is free. If it's useful to you and you'd like to say thanks, you can buy me a coffee at
+[ko-fi.com/subbaan](https://ko-fi.com/subbaan).
 
 ## Development
 

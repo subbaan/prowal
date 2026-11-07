@@ -210,6 +210,8 @@ in
 .SH LICENSE
 GNU General Public License, version 3 or (at your option) any later version.
 There is no warranty.
+.SH SUPPORT
+If Prowal is useful to you, you can support it at https://ko-fi.com/subbaan
 .SH SEE ALSO
 .BR apwal (1)
 .SH AUTHOR

@@ -857,6 +857,8 @@ void EditorWindow::about()
                         "<p>A clean-room successor to <i>apwal</i> by Pascal Eberhard.</p>"
                         "<p>Free software under the GNU General Public License, version 3 or later. "
                         "There is no warranty.</p>"
+                        "<p>If Prowal is useful to you, you can support it at:<br>"
+                        "<a href=\"https://ko-fi.com/subbaan\">ko-fi.com/subbaan</a>.</p>"
                         "<p>Config: %2</p>")
                        .arg(QStringLiteral(PROWAL_VERSION), m_doc->path().toHtmlEscaped()));
 }
